@@ -1,0 +1,8 @@
+The user visits:
+
+> Homepage (has a link to) >
+> view all customers (can select a single customer) >
+> single customer (views screen with a form to perform transactions):
+    In the form, the user provides the 
+        1. email of the reciever of the amount, 
+        2. amount to be transfered
