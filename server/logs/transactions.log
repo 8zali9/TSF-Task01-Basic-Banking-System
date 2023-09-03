@@ -1,0 +1,15 @@
+2023-09-03T00:40:23.331Z [info] @Failure: No Payee Existed
+Payer: david@example.com
+Payee: 1mily@example.com
+Amount: 1000
+
+2023-09-03T00:41:15.984Z [info] @Failure: Insufficient Balance
+Payer: david@example.com
+Payee: emily@example.com
+Amount: 4000
+
+2023-09-03T00:41:57.934Z [info] @Success
+Payer: david@example.com
+Payee: emily@example.com
+Amount: 500
+

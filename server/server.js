@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const port = process.env.PORT || 8080;
-// const customerRoutes = require("./routes/cutomerRoutes");
+const customerRoutes = require("./routes/customerRoutes");
 const connection = require("./config/connect_db");
 
 const app = express();
@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/api", customerRoutes);
+app.use("/api", customerRoutes);
 
 connection.connect((err) => {
   if (err) {

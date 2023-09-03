@@ -9,5 +9,4 @@ const connection = mysql2.createConnection({
 
 const db = connection.promise();
 
-// used in queries
 module.exports = db;

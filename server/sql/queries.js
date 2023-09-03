@@ -1,48 +1,60 @@
 // to get all customers
-const getAllCustomers = `
+const qGetAllCustomers = `
     SELECT *
     FROM CUSTOMER;    
 `;
 
 // to get a single customer
-const getACustomer = `
+const qGetACustomer = `
     SELECT *
     FROM CUSTOMER
-    WHERE customerEmail = 'sample@email.com';
+    WHERE customerEmail = ?;
 `;
+
+// ----------------------------------------------------Transaction----------------------------------------------------
 
 // -- ************* The following two queries will run asynchronously after the user has clicked 'Proceed' ************* --
 
 // to check if a user/receiver exists
-const payeeExists = `
+const qPayeeExists = `
     SELECT 1 
     FROM CUSTOMER 
-    WHERE customerEmail = payeeEmail;
+    WHERE customerEmail = ?;
 `;
 
 // to check if the sender has sufficient balance to perform transaction
-const sufficientBal = `
-    SELECT cuurrentBalance >= amount AS sufficient_balance
+const qSufficientBal = `
+    SELECT CASE WHEN cuurrentBalance >= ? THEN 1 ELSE 0 END AS sufficient_balance
     FROM CUSTOMER
-    WHERE customerEmail = payerEmail;
+    WHERE customerEmail = ?;
 `;
 
 // -- ************* The following three queries will run asynchronously after the user has clicked 'Send' ************* --
 
 // to update the current balance of the sender/payer
-const updatePayerBal = `
+const qUpdatePayerBal = `
     UPDATE CUSTOMER 
-    SET cuurrentBalance = cuurrentBalance - amount WHERE customerEmail = payerEmail;
+    SET cuurrentBalance = cuurrentBalance - ? WHERE customerEmail = ?;
 `;
 
 // to update the current balance of the sender/payer
-const updatePayeeBal = `
+const qUpdatePayeeBal = `
     UPDATE CUSTOMER 
-    SET cuurrentBalance = cuurrentBalance + amount WHERE customerEmail = payeeEmail;
+    SET cuurrentBalance = cuurrentBalance + ? WHERE customerEmail = ?;
 `;
 // to transfer amount
-const recordTransaction = `
+const qRecordTransaction = `
     INSERT INTO 
     TRANSFERS (payerEmail, payeeEmail, amount)
-    VALUES ('samplePayer@email.com', 'samplePayee@email.com', 1000);
+    VALUES (?, ?, ?);
 `;
+
+module.exports = {
+  qGetAllCustomers,
+  qGetACustomer,
+  qPayeeExists,
+  qSufficientBal,
+  qUpdatePayerBal,
+  qUpdatePayeeBal,
+  qRecordTransaction,
+};
