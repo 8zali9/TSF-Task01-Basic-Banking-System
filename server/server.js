@@ -13,9 +13,15 @@ app.use(rateLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", customerRoutes);
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 
-app.use(cors());
+app.use("/api", customerRoutes);
 
 connection.connect((err) => {
   if (err) {

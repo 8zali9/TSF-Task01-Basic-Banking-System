@@ -1,15 +1,30 @@
-2023-09-03T00:40:23.331Z [info] @Failure: No Payee Existed
-Payer: david@example.com
-Payee: 1mily@example.com
+2023-09-09T03:51:31.972Z [info] @Success
+Payer: alice@example.com
+Payee: bob@example.com
 Amount: 1000
 
-2023-09-03T00:41:15.984Z [info] @Failure: Insufficient Balance
-Payer: david@example.com
-Payee: emily@example.com
+2023-09-09T07:06:02.541Z [info] @Success
+Payer: alice@example.com
+Payee: bob@example.com
+Amount: 1000
+
+2023-09-09T07:06:40.827Z [info] @Failure: Insufficient Balance
+Payer: alice@example.com
+Payee: bob@example.com
+Amount: 490000
+
+2023-09-09T07:06:51.917Z [info] @Success
+Payer: alice@example.com
+Payee: bob@example.com
+Amount: 1000
+
+2023-09-09T07:07:31.084Z [info] @Success
+Payer: bob@example.com
+Payee: carol@example.com
 Amount: 4000
 
-2023-09-03T00:41:57.934Z [info] @Success
-Payer: david@example.com
-Payee: emily@example.com
-Amount: 500
+2023-09-09T07:08:01.741Z [info] @Success
+Payer: carol@example.com
+Payee: alice@example.com
+Amount: 1900
 

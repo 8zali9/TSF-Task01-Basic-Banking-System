@@ -3,6 +3,9 @@ const promisingDb = require("../config/promiseConnect_db");
 const {
   qGetAllCustomers,
   qGetACustomer,
+  qDebitHistory,
+  qGetCustomersLessOne,
+  qCreditHistory,
   qRecordTransaction,
   qUpdatePayerBal,
   qUpdatePayeeBal,
@@ -14,7 +17,25 @@ const logger = require("../utils/logger");
 // @desc    get Homepage
 // @route   GET /api/
 const getHomepage = (req, res) => {
-  res.status(200).json({ message: "Homepage" });
+  res.status(200);
+};
+
+// @desc    get all customers less one
+// @route   GET /api/customer/less/:email
+const getCustomersLessOne = (req, res) => {
+  const customerEmail = req.params.email;
+  db.query(qGetCustomersLessOne, [customerEmail], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: "Error." });
+    } else {
+      if (result.length === 0) {
+        res.status(404).json({ message: "No Customers Found." });
+      } else {
+        res.status(200).json(result);
+      }
+    }
+  });
 };
 
 // @desc    get all customers
@@ -43,7 +64,43 @@ const getACustomer = (req, res) => {
       res.status(500).json({ error: "Error retreiving the customer." });
     } else {
       if (result.length === 0) {
-        res.status(404).json({ message: "No Customers registered." });
+        res.status(404).json({ message: "Customer Not Found." });
+      } else {
+        res.status(200).json(result);
+      }
+    }
+  });
+};
+
+// @desc    get Debit History
+// @route   GET /api/customer/history/:email
+const getDebitHistory = async (req, res) => {
+  const payerEmail = req.params.email;
+
+  db.query(qDebitHistory, [payerEmail], (err, result) => {
+    if (err) {
+      res.status(500).json({ error: "Error retreiving the History." });
+    } else {
+      if (result.length === 0) {
+        res.status(404).json({ message: "Customer Not Found." });
+      } else {
+        res.status(200).json(result);
+      }
+    }
+  });
+};
+
+// @desc    get Credit History
+// @route   GET /api/customer/history/:email
+const getCreditHistory = async (req, res) => {
+  const payeeEmail = req.params.email;
+
+  db.query(qCreditHistory, [payeeEmail], (err, result) => {
+    if (err) {
+      res.status(500).json({ error: "Error retreiving the History." });
+    } else {
+      if (result.length === 0) {
+        res.status(404).json({ message: "Customer Not Found." });
       } else {
         res.status(200).json(result);
       }
@@ -58,6 +115,10 @@ const transferAmount = async (req, res) => {
   const { payeeEmail, amount } = req.body;
 
   try {
+    if (payerEmail === payeeEmail) {
+      return res.status(409).json({ error: "Error: 409" });
+    }
+
     const [payeeExists] = await promisingDb.execute(qPayeeExists, [payeeEmail]);
     if (payeeExists.length === 0) {
       logger.info(
@@ -101,7 +162,7 @@ const transferAmount = async (req, res) => {
       `@Success\nPayer: ${payerEmail}\nPayee: ${payeeEmail}\nAmount: ${amount}\n`
     );
 
-    res.status(200).json({ message: "Transaction Successful." });
+    res.status(200).json({ payeeEmail, amount });
   } catch (error) {
     await promisingDb.rollback();
 
@@ -115,7 +176,10 @@ const transferAmount = async (req, res) => {
 
 module.exports = {
   getHomepage,
+  getCustomersLessOne,
   getAllCustomers,
   getACustomer,
+  getDebitHistory,
+  getCreditHistory,
   transferAmount,
 };

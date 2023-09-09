@@ -11,6 +11,36 @@ const qGetACustomer = `
     WHERE customerEmail = ?;
 `;
 
+const qGetCustomersLessOne = `
+    SELECT *
+    FROM CUSTOMER
+    WHERE customerEmail <> ?;
+`;
+
+// to get the history of transactions made by the Payer(customer): Debits
+const qDebitHistory = `
+    SELECT 
+        t.transferID,
+        t.payeeEmail,
+        t.amount
+    FROM CUSTOMER c
+    JOIN TRANSFERS t ON c.customerEmail = t.payerEmail
+    WHERE c.customerEmail = ?
+    ORDER BY t.transferID DESC;;
+`;
+
+// to get the history of transactions made to the Payer(customer): Credits
+const qCreditHistory = `
+    SELECT 
+        t.transferID,
+        t.payerEmail,
+        t.amount
+    FROM CUSTOMER c
+    JOIN TRANSFERS t ON c.customerEmail = t.payeeEmail
+    WHERE c.customerEmail = ?
+    ORDER BY t.transferID DESC;;
+`;
+
 // ----------------------------------------------------Transaction----------------------------------------------------
 
 // -- ************* The following two queries will run asynchronously after the user has clicked 'Proceed' ************* --
@@ -52,6 +82,9 @@ const qRecordTransaction = `
 module.exports = {
   qGetAllCustomers,
   qGetACustomer,
+  qGetCustomersLessOne,
+  qDebitHistory,
+  qCreditHistory,
   qPayeeExists,
   qSufficientBal,
   qUpdatePayerBal,
