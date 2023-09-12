@@ -28,3 +28,13 @@ Payer: carol@example.com
 Payee: alice@example.com
 Amount: 1900
 
+2023-09-12T03:28:46.389Z [info] @Success
+Payer: grace@example.com
+Payee: alice@example.com
+Amount: 6700
+
+2023-09-12T03:31:37.670Z [info] @Success
+Payer: grace@example.com
+Payee: alice@example.com
+Amount: 1000
+

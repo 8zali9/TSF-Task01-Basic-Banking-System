@@ -44,7 +44,7 @@ export default function Form({customerEmail}) {
     if (response.status === 200) {
       setLoading(false)
       router.refresh()
-      router.push(`/Customers/${customerEmail}`)
+      // router.push(`/Customers/${customerEmail}`)
       toast.success('Transaction Successful.')
       setPayeeEmail('')
       setAmount('')
