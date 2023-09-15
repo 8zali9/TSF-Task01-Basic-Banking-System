@@ -25,7 +25,6 @@ app.use("/api", customerRoutes);
 
 connection.connect((err) => {
   if (err) {
-    console.log(err);
     console.log("Error connecting the Database");
   } else {
     console.log("Database Connection Successful.");
