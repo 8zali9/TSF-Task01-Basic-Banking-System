@@ -23,9 +23,10 @@ app.use(
 
 app.use("/api", customerRoutes);
 
-connection.connect((err) => {
+connection.connect((err, res) => {
   if (err) {
     console.log("Error connecting the Database");
+    return res.json({ message: "Error connecting the Database" });
   } else {
     console.log("Database Connection Successful.");
     app.listen(port, () => {
