@@ -1,9 +1,5 @@
 "use client"
 
-export const metadata = {
-  title: 'TransVault | Customers'
-};
-
 import React, { Suspense, useState } from 'react'
 import Link from 'next/link'
 import { FaUser, FaEnvelope } from 'react-icons/fa';
